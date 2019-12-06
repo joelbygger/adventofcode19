@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14) # This is a version tested to work, earlier versions probably work as well.
+cmake_minimum_required(VERSION 3.13) # This is a version tested to work, earlier versions probably work as well.
 
 project(adventofcode19
         VERSION 0.0.0
@@ -22,5 +22,5 @@ include(external/iwyu.cmake)
 include(external/clang_format.cmake)
 include(external/cppcheck.cmake)
 
-add_subdirectory(external/catch2)
 add_subdirectory(src)
+add_subdirectory(test)
