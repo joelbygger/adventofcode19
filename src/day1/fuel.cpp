@@ -2,16 +2,18 @@
 //#include <iostream>
 #include <numeric>
 
-namespace Fuel {
-int accumulator(const std::vector<int> &weights)
+namespace Fuel
 {
-    auto formula = [](int a, int b) {
-        //std::cout << "a: " << a << " b: " << b << "\n";
-        auto tmp = b / 3;
-        return a + (tmp >= 2 ? tmp - 2 : tmp);};
+    int accumulator(const std::vector<int>& weights)
+    {
+        auto formula = [](int a, int b) {
+            // std::cout << "a: " << a << " b: " << b << "\n";
+            auto tmp = b / 3;
+            return a + (tmp >= 2 ? tmp - 2 : tmp);
+        };
 
-    int sum = std::accumulate(weights.begin(), weights.end(), 0, formula);
-    //std::cout << "woooza: " << sum << "\n";
-    return sum;
-}
+        int sum = std::accumulate(weights.begin(), weights.end(), 0, formula);
+        // std::cout << "woooza: " << sum << "\n";
+        return sum;
+    }
 }
