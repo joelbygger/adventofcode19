@@ -15,7 +15,7 @@ else()
     file(GLOB_RECURSE ALL_MY_CPP_FILES
             LIST_DIRECTORIES false
             ${CMAKE_SOURCE_DIR}/src/*.*pp
-            ${CMAKE_SOURCE_DIR}/testsOfFramework/*.*pp)
+            ${CMAKE_SOURCE_DIR}/test/*.*pp)
 
     add_custom_target(
             clang_format
