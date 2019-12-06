@@ -12,8 +12,8 @@ namespace Fuel
             return a + (tmp >= 2 ? tmp - 2 : tmp);
         };
 
-        int sum = std::accumulate(weights.begin(), weights.end(), 0, formula);
+        auto sum = std::accumulate(weights.begin(), weights.end(), 0, formula);
         // std::cout << "woooza: " << sum << "\n";
         return sum;
     }
-}
+} // namespace Fuel
