@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.14) # This is a version tested to work, earlier versions probably work as well.
 
-project(cmake_proj
+project(adventofcode19
         VERSION 0.0.0
-        DESCRIPTION "CMake C++ template project with additional useful tools."
+        DESCRIPTION "My run at attempt of code."
         LANGUAGES CXX)
 
 # All compile commands are written to file "compile_commands.json".
@@ -23,5 +23,4 @@ include(external/clang_format.cmake)
 include(external/cppcheck.cmake)
 
 add_subdirectory(external/catch2)
-add_subdirectory(testsOfFramework)
 add_subdirectory(src)
