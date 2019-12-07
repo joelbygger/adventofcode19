@@ -35,6 +35,23 @@ namespace
         return intcodePrgm;
     }
 
+    int modifyValuesAndRun(const std::vector<int>& intcodePrgm, const int noun, const int verb)
+    {
+        std::vector<int> intcodePrgmTest = intcodePrgm;
+        intcodePrgmTest.at(1) = noun;
+        intcodePrgmTest.at(2) = verb;
+        Intcode::calculate(intcodePrgmTest);
+
+        const int desiredRes = 19690720;
+        if (intcodePrgmTest.at(0) == desiredRes) {
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            std::cout << "Found desired res with 100*noun+verb: " << 100 * noun + verb << ", noun: " << noun
+                      << ", verb: " << verb << "\n";
+        }
+
+        return intcodePrgmTest.at(0);
+    }
+
 } // namespace
 
 int main(int argc, char** argv)
@@ -48,10 +65,21 @@ int main(int argc, char** argv)
         std::cout << "Received path: " << argv[1] << "\n";
 
         // Read the file.
-        std::vector<int> intcodePrgm = getInput(argv[1]);
+        const std::vector<int> intcodePrgm = getInput(argv[1]);
+
         if (!intcodePrgm.empty()) {
-            Intcode::calculate(intcodePrgm);
-            std::cout << "Intcode program result pos 0: " << intcodePrgm.at(0) << "\n";
+            std::cout << "Task 1:\n";
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            std::cout << "Result pos 0: " << modifyValuesAndRun(intcodePrgm, 12, 2) << "\n";
+
+            std::cout << "Task 2:\n";
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            for (auto noun = 0; noun <= 99; noun++) {
+                // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+                for (auto verb = 0; verb <= 99; verb++) {
+                    modifyValuesAndRun(intcodePrgm, noun, verb);
+                }
+            }
         }
     }
     return 0;
