@@ -1,7 +1,5 @@
-#define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
-#include "catch2/catch.hpp"
 #include "fuel.hpp"
-#include <vector>
+#include <catch2/catch.hpp>
 
 TEST_CASE("Fuel accumulator", "[woot]")
 {
