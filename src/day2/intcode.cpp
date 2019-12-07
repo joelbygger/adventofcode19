@@ -11,31 +11,31 @@ namespace
         end = 99
     };
 
-    void doMath(std::vector<int>& intcodePrgm, const size_t opCodePos, const std::function<int(int, int)>& op)
+    void doMath(std::vector<int>& intcodePrgm, const size_t instrPtr, const std::function<int(int, int)>& op)
     {
-        const auto a = static_cast<size_t>(intcodePrgm.at(opCodePos + static_cast<size_t>(1)));
-        const auto b = static_cast<size_t>(intcodePrgm.at(opCodePos + static_cast<size_t>(2)));
-        const auto toPos = static_cast<size_t>(intcodePrgm.at(opCodePos + static_cast<size_t>(3)));
-        intcodePrgm.at(toPos) = op(intcodePrgm.at(a), intcodePrgm.at(b));
+        const auto addrParamA = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(1)));
+        const auto addrParamB = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(2)));
+        const auto addrParamRes = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(3)));
+        intcodePrgm.at(addrParamRes) = op(intcodePrgm.at(addrParamA), intcodePrgm.at(addrParamB));
     }
 } // namespace
 
 void Intcode::calculate(std::vector<int>& intcodePrgm)
 {
     bool done = false;
-    for (size_t i = 0; i < intcodePrgm.size() && !done; i += 4) {
-        switch (intcodePrgm.at(i)) {
+    for (size_t instrPtr = 0; instrPtr < intcodePrgm.size() && !done; instrPtr += 4) {
+        switch (intcodePrgm.at(instrPtr)) {
         case add:
-            doMath(intcodePrgm, i, std::plus<>());
+            doMath(intcodePrgm, instrPtr, std::plus<>());
             break;
         case mul:
-            doMath(intcodePrgm, i, std::multiplies<>());
+            doMath(intcodePrgm, instrPtr, std::multiplies<>());
             break;
         case end:
             done = true;
             break;
         default:
-            std::cout << "Terrible failure, invalid opcode at pos: " << i << "\n";
+            std::cout << "Terrible failure, invalid opcode at instrPtr: " << instrPtr << "\n";
             done = true;
             break;
         }
