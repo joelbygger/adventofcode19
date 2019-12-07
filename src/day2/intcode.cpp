@@ -13,10 +13,10 @@ namespace
 
     void doMath(std::vector<int>& intcodePrgm, const size_t instrPtr, const std::function<int(int, int)>& op)
     {
-        const auto addrParamA = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(1)));
-        const auto addrParamB = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(2)));
+        const auto noun = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(1)));
+        const auto verb = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(2)));
         const auto addrParamRes = static_cast<size_t>(intcodePrgm.at(instrPtr + static_cast<size_t>(3)));
-        intcodePrgm.at(addrParamRes) = op(intcodePrgm.at(addrParamA), intcodePrgm.at(addrParamB));
+        intcodePrgm.at(addrParamRes) = op(intcodePrgm.at(noun), intcodePrgm.at(verb));
     }
 } // namespace
 
