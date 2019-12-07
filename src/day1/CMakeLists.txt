@@ -1,7 +1,7 @@
 
 # Where the logic is.
 new_cpp_library_shared(
-        NAME day1lib
+        NAME fuellib
         SOURCES fuel.cpp fuel.hpp
         INCLUDE_PUBLIC ${CMAKE_CURRENT_LIST_DIR}
         NO_CPPCHECK false)
@@ -10,5 +10,5 @@ new_cpp_library_shared(
 new_cpp_executable(
         NAME day1
         SOURCES main.cpp
-        LINK_PRIVATE day1lib
+        LINK_PRIVATE fuellib
         NO_CPPCHECK false)
