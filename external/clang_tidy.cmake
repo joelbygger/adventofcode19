@@ -69,6 +69,9 @@ else()
     set(CLANG_TIDY_CHECKS "${CLANG_TIDY_CHECKS},-google-runtime-references")
     # TODO should I have this? Same as hicpp-explicit-conversions? Explicit on all constructors with one param?
     set(CLANG_TIDY_CHECKS "${CLANG_TIDY_CHECKS},-google-explicit-constructor")
+    # The following two are quite annoying in tests, where one passes in numbers.
+    set(CLANG_TIDY_CHECKS "${CLANG_TIDY_CHECKS},-readability-magic-numbers")
+    set(CLANG_TIDY_CHECKS "${CLANG_TIDY_CHECKS},-cppcoreguidelines-avoid-magic-numbers")
 
 endif()
 
