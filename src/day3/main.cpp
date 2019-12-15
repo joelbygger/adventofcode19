@@ -30,9 +30,9 @@ namespace
             char dir;
             int32_t dist;
             ifs >> dir >> dist;
-            route.push_back({dir, dist});
+            route.push_back({ dir, dist });
 
-            if(ifs.peek() == ',') {
+            if (ifs.peek() == ',') {
                 char delim;
                 ifs >> delim;
             }
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
         const ManhattanDist::rawRoutes routes = getInput(argv[1]);
         ManhattanDist manhattan;
         manhattan.addRoutes(routes);
-        }
+    }
 
     return 0;
 }

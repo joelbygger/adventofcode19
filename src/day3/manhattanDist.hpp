@@ -14,8 +14,8 @@ public:
 
 private:
     using aRoute = std::vector<uint64_t>;
-    
-    static aRoute calcRoute (const ManhattanDist::rawRoute& inRoute);
 
-    std::vector<aRoute> m_routes; 
+    static aRoute calcRoute(const ManhattanDist::rawRoute& inRoute);
+
+    std::vector<aRoute> m_routes;
 };
