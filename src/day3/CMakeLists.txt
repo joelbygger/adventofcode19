@@ -7,8 +7,8 @@ new_cpp_library_shared(
         NO_CPPCHECK false)
 
 # For command line execution.
-#new_cpp_executable(
-#        NAME day3
-#        SOURCES main.cpp
-#        LINK_PRIVATE manhattan_dist_lib
-#        NO_CPPCHECK false)
+new_cpp_executable(
+        NAME day3
+        SOURCES main.cpp
+        LINK_PRIVATE manhattan_dist_lib
+        NO_CPPCHECK false)

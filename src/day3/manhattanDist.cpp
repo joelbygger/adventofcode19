@@ -1,90 +1,93 @@
 #include "manhattanDist.hpp"
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
 
-int ManhattanDist::addRoute(const std::vector<std::string>& route)
-{
-    // size_t currX = 0;
-    // size_t currY = 0;
-    //auto posX = m_centralPortX;
-    //auto posY = m_centralPortY; // static_cast<matrixCol::iterator>(
-    matrixRow::iterator itX = m_centralPortX;
-    int64_t indexY = 0;
-    if(itX->size()) { // NOLINT readability-container-size-empty (cannot use empty() for some reason, maybe beacuse we have a list of lists of something?)
-        indexY = std::distance(itX->begin(), m_centralPortY);
-    }
+ManhattanDist::aRoute ManhattanDist::calcRoute (const ManhattanDist::rawRoute& inRoute) {
+    int32_t dx = 0;
+    int32_t dy = 0;
+    bool ok = false;
+    std::pair<int32_t, int32_t> currPos{0, 0};
+    aRoute outRoute;
+    outRoute.emplace_back(0); // Start at pos 0.
 
-    m_routeCnt++;
-
-    for (const std::string& move : route) {
-        switch (move.at(0)) {
+    for (const auto& move : inRoute) {
+        //std::cout << "Dir: "<< move.first << ", steps: " << move.second << "\n";
+        switch (move.first) {
         case 'U': {
-            auto steps = std::stoi(move.substr(1));
-            std::cout << "U " << steps << "\n";
-            // Check if matrix big enough.
-            auto rem = std::distance(itX, m_matrix.end());
-            // If too small, add elements.
-            while (rem < steps) {
-                m_matrix.emplace_back();
-                rem++;
-            }
-            while(steps-- >= 0)
-            {
-                //auto it = itX->begin();
-                matrixCol::iterator it = itX->begin();
-                std::advance(it, indexY);
-                //const auto sz = it->size();
-                size_t sz = 0;
-                if(it->empty()) {
-                    sz = 0;
-                }
-                else {
-                    sz = it->size();
-                }
-                int dist = 0;
-                if(sz == 0) {
-                    std::cout << "It was a empty\n";
-                    it->insert({m_routeCnt, dist});
-                }
-                else if(sz == 1) {
-                    if(it->find(m_routeCnt) == it->end()) {
-                        // The first time this is crossed, and not crossing itself, calculate dist.
-                        dist = 99; // NOLINT cppcoreguidelines-avoid-magic-numbers
-                    }
-                    else {
-                        // Crossed ourselves, do nothing. Or should we???
-                    }
-                }
-                
-                // Insert key + value, if key already exists nothing is changed.
-                it->insert({m_routeCnt, dist});
-                
-                // Or add to pos 0?
-                // Add coordinates + manhattan to some low-list.
-            }
+            dx = 0;
+            dy = 1;
+            ok = true;
             break;
         }
         case 'D': {
-            auto steps = std::stoi(move.substr(1));
-            std::cout << "D " << steps << "\n";
+            dx = 0;
+            dy = -1;
+            ok = true;
             break;
         }
         case 'R': {
-            auto steps = std::stoi(move.substr(1));
-            std::cout << "R " << steps << "\n";
+            dx = 1;
+            dy = 0;
+            ok = true;
             break;
         }
         case 'L': {
-            auto steps = std::stoi(move.substr(1));
-            std::cout << "L " << steps << "\n";
+            dx = -1;
+            dy = 0;
+            ok = true;
             break;
         }
         default:
-            std::cout << "Terrible, received an unparseable character: " << move.at(0) << "\n";
+            std::cout << "Terrible, received an unparseable character: " << move.first << "\n";
+            ok = false;
             break;
+        }
+
+        // Mark route.
+        auto steps = move.second;
+        while(ok && steps-- > 0)
+        {
+            currPos.first += dx;
+            currPos.second += dy;
+            // A lot of casting to make sure signedbits are not travelling around etc.
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            outRoute.push_back(static_cast<uint64_t>(currPos.first) << 32U | static_cast<uint64_t>(static_cast<uint32_t>(currPos.second)));
+        }
+    }
+    return outRoute;
+}
+
+int32_t ManhattanDist::addRoutes(const rawRoutes& inRoutes)
+{
+    for(const auto& inRoute : inRoutes) {
+        m_routes.push_back(calcRoute(inRoute));
+    }
+
+    // For set_intersections to work routes must be sorted.
+    for(auto& route : m_routes) {
+        std::sort(route.begin(), route.end());
+    }
+
+    // All crossings transferred to one array. Here we assume there are only two routes.
+    aRoute crossings;
+    std::set_intersection(
+        m_routes.at(0).begin(), m_routes.at(0).end(), 
+        m_routes.at(1).begin(), m_routes.at(1).end(),
+        std::back_inserter(crossings));
+    
+    int32_t minDist = INT32_MAX;
+    for(const auto& point : crossings) {
+        if(point > 0) {
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            auto x = static_cast<int32_t>(point >> 32U);
+            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
+            auto y = static_cast<int32_t>(point & 0xFFFFFFFFU);
+            //std::cout << "x: " << x << ", y: " << y << "\n";
+            minDist = std::min(minDist, abs(x) + abs(y));
         }
     }
 
-    return m_routeCnt;
+    return minDist;
 }

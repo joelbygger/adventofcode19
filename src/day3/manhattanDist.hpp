@@ -6,22 +6,16 @@
 class ManhattanDist
 {
 public:
-    // ManhattanDist() : m_routes() {};// = default;
-    // Returns the ID this route is assigned in the local matrix.
+    using rawPoint = std::pair<char, int>;
+    using rawRoute = std::vector<rawPoint>;
+    using rawRoutes = std::vector<rawRoute>;
     // Route is expected to be on format Rn or Dn or Un or Ln.
-    int addRoute(const std::vector<std::string>& route);
+    int32_t addRoutes(const rawRoutes& inRoutes);
 
 private:
-    //using matrixPos = std::vector<int>;
-    using matrixPos = std::map<int, int>; // route index, Mahattan distance
-    using matrixCol = std::list<matrixPos>;
-    using matrixRow = std::list<matrixCol>;
+    using aRoute = std::vector<uint64_t>;
+    
+    static aRoute calcRoute (const ManhattanDist::rawRoute& inRoute);
 
-    int m_routeCnt{ 0 };
-    // A matrix where each index conatins the route IDs that has passed through said point.
-    matrixRow m_matrix;
-    //const matrixRow::const_iterator m_centralPortX = m_matrix.begin();
-    //const matrixCol::const_iterator m_centralPortY = m_matrix.front().begin();
-    const matrixRow::iterator m_centralPortX = m_matrix.begin();
-    const matrixCol::iterator m_centralPortY = m_matrix.front().begin();
+    std::vector<aRoute> m_routes; 
 };

@@ -16,9 +16,10 @@ namespace
      * @param path Path to file.
      * @return File data to be used.
      */
-    std::vector<int> getInput(const char* path)
+    ManhattanDist::rawRoutes getInput(const char* path)
     {
-        std::vector<int> intcodePrgm;
+        ManhattanDist::rawRoute route;
+        ManhattanDist::rawRoutes routes;
 
         std::ifstream ifs(path, std::ios_base::in);
         if (!ifs) {
@@ -26,30 +27,22 @@ namespace
         }
         else {
             // Read the file.
-            std::string str;
-            while (std::getline(ifs, str, ',')) {
-                intcodePrgm.emplace_back(std::stoi(str));
+            char dir;
+            int32_t dist;
+            ifs >> dir >> dist;
+            route.push_back({dir, dist});
+
+            if(ifs.peek() == ',') {
+                char delim;
+                ifs >> delim;
+            }
+            else {
+                routes.push_back(route);
+                route.clear();
             }
         }
 
-        return intcodePrgm;
-    }
-
-    int modifyValuesAndRun(const std::vector<int>& intcodePrgm, const int noun, const int verb)
-    {
-        std::vector<int> intcodePrgmTest = intcodePrgm;
-        intcodePrgmTest.at(1) = noun;
-        intcodePrgmTest.at(2) = verb;
-        Intcode::calculate(intcodePrgmTest);
-
-        const int desiredRes = 19690720;
-        if (intcodePrgmTest.at(0) == desiredRes) {
-            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-            std::cout << "Found desired res with 100*noun+verb: " << 100 * noun + verb << ", noun: " << noun
-                      << ", verb: " << verb << "\n";
-        }
-
-        return intcodePrgmTest.at(0);
+        return routes;
     }
 
 } // namespace
@@ -65,22 +58,10 @@ int main(int argc, char** argv)
         std::cout << "Received path: " << argv[1] << "\n";
 
         // Read the file.
-        const std::vector<int> intcodePrgm = getInput(argv[1]);
-
-        if (!intcodePrgm.empty()) {
-            std::cout << "Task 1:\n";
-            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-            std::cout << "Result pos 0: " << modifyValuesAndRun(intcodePrgm, 12, 2) << "\n";
-
-            std::cout << "Task 2:\n";
-            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-            for (auto noun = 0; noun <= 99; noun++) {
-                // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers, readability-magic-numbers)
-                for (auto verb = 0; verb <= 99; verb++) {
-                    modifyValuesAndRun(intcodePrgm, noun, verb);
-                }
-            }
+        const ManhattanDist::rawRoutes routes = getInput(argv[1]);
+        ManhattanDist manhattan;
+        manhattan.addRoutes(routes);
         }
-    }
+
     return 0;
 }
