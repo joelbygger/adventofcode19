@@ -12,10 +12,15 @@ public:
     // Route is expected to be on format Rn or Dn or Un or Ln.
     void addRoutes(const rawRoutes& inRoutes);
     [[nodiscard]] int32_t getClosestIntersectionManhattanDist() const;
-
+    //[[nodiscard]] int32_t getSmallestManhattanDist() const;
 
 private:
-    using aRoute = std::vector<uint64_t>;
+    struct point
+    {
+        uint64_t xy;
+        uint32_t totDist;
+    };
+    using aRoute = std::vector<struct point>;
 
     static aRoute calcRoute(const Routes::rawRoute& inRoute);
 

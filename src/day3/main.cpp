@@ -26,7 +26,7 @@ namespace
             std::cout << "Failed to open file.\n";
         }
         else {
-            while(!ifs.eof()) {
+            while (!ifs.eof()) {
                 // Read the file.
                 char dir;
                 int32_t dist;
