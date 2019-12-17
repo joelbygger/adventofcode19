@@ -56,10 +56,7 @@ Routes::aRoute Routes::calcRoute(const Routes::rawRoute& inRoute)
             currPos.first += dx;
             currPos.second += dy;
             // struct point p{0,0};
-            struct point p
-            {
-                0, 0
-            };
+            struct point p = { 0, 0 };
             // A lot of casting to make sure signedbits are not travelling around etc.
             p.xy = static_cast<uint64_t>(currPos.first) << 32U
                 | static_cast<uint64_t>(static_cast<uint32_t>(currPos.second));
@@ -80,7 +77,7 @@ void Routes::addRoutes(const rawRoutes& inRoutes)
 int32_t Routes::getClosestIntersectionManhattanDist() const
 {
     auto routes = m_routes; // Don't fiddle with storage.
-    auto comp = [](const struct point& a, const struct point& b) { return a.xy < b.xy; };
+    auto comp = [](const point& a, const point& b) { return a.xy < b.xy; };
 
     // For set_intersections to work routes must be sorted.
     for (auto& route : routes) {
