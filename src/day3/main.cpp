@@ -3,7 +3,7 @@
  * Program reads a file. A bit of error checking is applied.
  *
  */
-#include "manhattanDist.hpp"
+#include "routes.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -16,10 +16,10 @@ namespace
      * @param path Path to file.
      * @return File data to be used.
      */
-    ManhattanDist::rawRoutes getInput(const char* path)
+    Routes::rawRoutes getInput(const char* path)
     {
-        ManhattanDist::rawRoute route;
-        ManhattanDist::rawRoutes routes;
+        Routes::rawRoute route;
+        Routes::rawRoutes routes;
 
         std::ifstream ifs(path, std::ios_base::in);
         if (!ifs) {
@@ -60,10 +60,10 @@ int main(int argc, char** argv)
         std::cout << "Received path: " << argv[1] << "\n";
 
         // Read the file.
-        const ManhattanDist::rawRoutes routes = getInput(argv[1]);
-        ManhattanDist manhattan;
-        manhattan.addRoutes(routes);
-        const auto dist = manhattan.getClosetsIntersectionDist();
+        const Routes::rawRoutes inRoutes = getInput(argv[1]);
+        Routes routes;
+        routes.addRoutes(inRoutes);
+        const auto dist = routes.getSmallestManhattanDist();
         std::cout << "Part1: Manhattan dist: " << dist << "\n";
     }
 

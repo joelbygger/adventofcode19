@@ -1,10 +1,10 @@
-#include "manhattanDist.hpp"
+#include "routes.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
 
-ManhattanDist::aRoute ManhattanDist::calcRoute(const ManhattanDist::rawRoute& inRoute)
+Routes::aRoute Routes::calcRoute(const Routes::rawRoute& inRoute)
 {
     int32_t dx = 0;
     int32_t dy = 0;
@@ -63,7 +63,7 @@ ManhattanDist::aRoute ManhattanDist::calcRoute(const ManhattanDist::rawRoute& in
 
 
 
-void ManhattanDist::addRoutes(const rawRoutes& inRoutes)
+void Routes::addRoutes(const rawRoutes& inRoutes)
 {
     for (const auto& inRoute : inRoutes) {
         m_routes.push_back(calcRoute(inRoute));
@@ -71,7 +71,7 @@ void ManhattanDist::addRoutes(const rawRoutes& inRoutes)
 }
 
 
-int32_t ManhattanDist::getClosetsIntersectionDist() const
+int32_t Routes::getSmallestManhattanDist() const
 {
     auto routes = m_routes; // Don't fiddle with storage.
 
