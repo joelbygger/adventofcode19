@@ -26,19 +26,21 @@ namespace
             std::cout << "Failed to open file.\n";
         }
         else {
-            // Read the file.
-            char dir;
-            int32_t dist;
-            ifs >> dir >> dist;
-            route.push_back({ dir, dist });
+            while(!ifs.eof()) {
+                // Read the file.
+                char dir;
+                int32_t dist;
+                ifs >> dir >> dist;
+                route.push_back({ dir, dist });
 
-            if (ifs.peek() == ',') {
-                char delim;
-                ifs >> delim;
-            }
-            else {
-                routes.push_back(route);
-                route.clear();
+                if (ifs.peek() == ',') {
+                    char delim;
+                    ifs >> delim;
+                }
+                else {
+                    routes.push_back(route);
+                    route.clear();
+                }
             }
         }
 
@@ -60,7 +62,8 @@ int main(int argc, char** argv)
         // Read the file.
         const ManhattanDist::rawRoutes routes = getInput(argv[1]);
         ManhattanDist manhattan;
-        manhattan.addRoutes(routes);
+        const auto dist = manhattan.addRoutes(routes);
+        std::cout << "MPart1: Manhattan dist: " << dist << "\n";
     }
 
     return 0;
