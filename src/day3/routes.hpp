@@ -11,7 +11,8 @@ public:
     using rawRoutes = std::vector<rawRoute>;
     // Route is expected to be on format Rn or Dn or Un or Ln.
     void addRoutes(const rawRoutes& inRoutes);
-    [[nodiscard]] int32_t getSmallestManhattanDist() const;
+    [[nodiscard]] int32_t getClosestIntersectionManhattanDist() const;
+
 
 private:
     using aRoute = std::vector<uint64_t>;

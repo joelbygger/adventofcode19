@@ -63,7 +63,7 @@ int main(int argc, char** argv)
         const Routes::rawRoutes inRoutes = getInput(argv[1]);
         Routes routes;
         routes.addRoutes(inRoutes);
-        const auto dist = routes.getSmallestManhattanDist();
+        const auto dist = routes.getClosestIntersectionManhattanDist();
         std::cout << "Part1: Manhattan dist: " << dist << "\n";
     }
 

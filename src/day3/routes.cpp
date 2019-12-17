@@ -71,7 +71,7 @@ void Routes::addRoutes(const rawRoutes& inRoutes)
 }
 
 
-int32_t Routes::getSmallestManhattanDist() const
+int32_t Routes::getClosestIntersectionManhattanDist() const
 {
     auto routes = m_routes; // Don't fiddle with storage.
 

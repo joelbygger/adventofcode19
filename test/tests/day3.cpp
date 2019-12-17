@@ -10,7 +10,7 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         Routes tmp;
         tmp.addRoutes(data);
-        REQUIRE(tmp.getSmallestManhattanDist() == 5);
+        REQUIRE(tmp.getClosestIntersectionManhattanDist() == 5);
     }
 
     SECTION("Test with Advents example 1")
@@ -22,7 +22,7 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         Routes tmp;
         tmp.addRoutes(data);
-        REQUIRE(tmp.getSmallestManhattanDist() == 159);
+        REQUIRE(tmp.getClosestIntersectionManhattanDist() == 159);
     }
 
     SECTION("Test with Advents example 2")
@@ -35,6 +35,6 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         Routes tmp;
         tmp.addRoutes(data);
-        REQUIRE(tmp.getSmallestManhattanDist() == 135);
+        REQUIRE(tmp.getClosestIntersectionManhattanDist() == 135);
     }
 }
