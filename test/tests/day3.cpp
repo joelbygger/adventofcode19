@@ -9,7 +9,8 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         std::vector<std::pair<char, int>> b{ { 'U', 2 }, { 'R', 5 }, { 'D', 4 }, { 'L', 7 } };
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         ManhattanDist tmp;
-        REQUIRE(tmp.addRoutes(data) == 5);
+        tmp.addRoutes(data);
+        REQUIRE(tmp.getClosetsIntersectionDist() == 5);
     }
 
     SECTION("Test with Advents example 1")
@@ -20,7 +21,8 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
                                              { 'D', 71 }, { 'R', 55 }, { 'D', 58 }, { 'R', 83 } };
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         ManhattanDist tmp;
-        REQUIRE(tmp.addRoutes(data) == 159);
+        tmp.addRoutes(data);
+        REQUIRE(tmp.getClosetsIntersectionDist() == 159);
     }
 
     SECTION("Test with Advents example 2")
@@ -32,6 +34,7 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
                                              { 'R', 40 }, { 'U', 7 },  { 'R', 15 }, { 'U', 6 },  { 'R', 7 } };
         std::vector<std::vector<std::pair<char, int>>> data{ a, b };
         ManhattanDist tmp;
-        REQUIRE(tmp.addRoutes(data) == 135);
+        tmp.addRoutes(data);
+        REQUIRE(tmp.getClosetsIntersectionDist() == 135);
     }
 }

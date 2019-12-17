@@ -62,8 +62,9 @@ int main(int argc, char** argv)
         // Read the file.
         const ManhattanDist::rawRoutes routes = getInput(argv[1]);
         ManhattanDist manhattan;
-        const auto dist = manhattan.addRoutes(routes);
-        std::cout << "MPart1: Manhattan dist: " << dist << "\n";
+        manhattan.addRoutes(routes);
+        const auto dist = manhattan.getClosetsIntersectionDist();
+        std::cout << "Part1: Manhattan dist: " << dist << "\n";
     }
 
     return 0;

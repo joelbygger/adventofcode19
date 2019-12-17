@@ -60,23 +60,32 @@ ManhattanDist::aRoute ManhattanDist::calcRoute(const ManhattanDist::rawRoute& in
     return outRoute;
 }
 
-int32_t ManhattanDist::addRoutes(const rawRoutes& inRoutes)
+
+
+
+void ManhattanDist::addRoutes(const rawRoutes& inRoutes)
 {
     for (const auto& inRoute : inRoutes) {
         m_routes.push_back(calcRoute(inRoute));
     }
+}
+
+
+int32_t ManhattanDist::getClosetsIntersectionDist() const
+{
+    auto routes = m_routes; // Don't fiddle with storage.
 
     // For set_intersections to work routes must be sorted.
-    for (auto& route : m_routes) {
+    for (auto& route : routes) {
         std::sort(route.begin(), route.end());
     }
 
     // All crossings transferred to one array. Here we assume there are only two routes.
     aRoute crossings;
-    std::set_intersection(m_routes.at(0).begin(),
-                          m_routes.at(0).end(),
-                          m_routes.at(1).begin(),
-                          m_routes.at(1).end(),
+    std::set_intersection(routes.at(0).begin(),
+                          routes.at(0).end(),
+                          routes.at(1).begin(),
+                          routes.at(1).end(),
                           std::back_inserter(crossings));
 
     int32_t minDist = INT32_MAX;
