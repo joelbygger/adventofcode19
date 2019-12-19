@@ -11,6 +11,7 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         Routes tmp;
         tmp.addRoutes(data);
         REQUIRE(tmp.getClosestIntersectionManhattanDist() == 5);
+        REQUIRE(tmp.getSmallestManhattanDist() == 18);
     }
 
     SECTION("Test with Advents example 1")
@@ -23,6 +24,7 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         Routes tmp;
         tmp.addRoutes(data);
         REQUIRE(tmp.getClosestIntersectionManhattanDist() == 159);
+        REQUIRE(tmp.getSmallestManhattanDist() == 610);
     }
 
     SECTION("Test with Advents example 2")
@@ -36,5 +38,6 @@ TEST_CASE("Manhattan distance calculator", "[woot]")
         Routes tmp;
         tmp.addRoutes(data);
         REQUIRE(tmp.getClosestIntersectionManhattanDist() == 135);
+        REQUIRE(tmp.getSmallestManhattanDist() == 410);
     }
 }

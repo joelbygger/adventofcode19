@@ -64,7 +64,9 @@ int main(int argc, char** argv)
         Routes routes;
         routes.addRoutes(inRoutes);
         const auto dist = routes.getClosestIntersectionManhattanDist();
-        std::cout << "Part1: Manhattan dist: " << dist << "\n";
+        std::cout << "Part1: Manhattan dist to closest intersection: " << dist << "\n";
+        const auto dist2 = routes.getSmallestManhattanDist();
+        std::cout << "Part2: Manhattan dist to intersection with smallest value: " << dist2 << "\n";
     }
 
     return 0;
