@@ -1,5 +1,6 @@
 #include "intcode.hpp"
 #include <catch2/catch.hpp>
+#include <vector>
 
 TEST_CASE("Intcode calculator", "[woot]")
 {

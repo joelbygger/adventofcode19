@@ -1,8 +1,7 @@
 #include "password.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <iostream>
-#include <iterator>
+#include <string>
+#include <vector>
+
 
 namespace
 {
