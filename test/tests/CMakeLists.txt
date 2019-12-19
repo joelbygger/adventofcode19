@@ -26,3 +26,9 @@ new_cpp_executable(
         SOURCES day3.cpp
         LINK_PUBLIC test_base routes_dist_lib)
 catch_discover_tests(day3_test)
+
+new_cpp_executable(
+        NAME day4_test
+        SOURCES day4.cpp
+        LINK_PUBLIC test_base password_lib)
+catch_discover_tests(day4_test)
