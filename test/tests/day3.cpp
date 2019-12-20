@@ -3,7 +3,6 @@
 #include <utility>
 #include <vector>
 
-
 TEST_CASE("Manhattan distance calculator", "[woot]")
 {
     SECTION("My Test 1")

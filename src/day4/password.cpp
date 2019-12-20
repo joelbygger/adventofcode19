@@ -1,7 +1,9 @@
 #include "password.hpp"
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <string>
 #include <vector>
-
 
 namespace
 {
@@ -19,7 +21,7 @@ namespace
 
     bool onlyIncrementOrEqual(const std::string& passStr)
     {
-        int prev = 0;
+        int prev = static_cast<int>('0');
         for (const auto c : passStr) {
             int i = static_cast<int>(c);
             if (i < prev) {
@@ -29,9 +31,26 @@ namespace
         }
         return true;
     }
+
+    bool adjacentEqualsAlwaysPairs(const std::string& passStr)
+    {
+        std::map<char, int> nums;
+        
+        for(const auto &c : passStr) {
+            
+            if(nums.find(c) != nums.end()) {
+                nums.at(c) += 1;
+            }
+            else {
+                nums.emplace(std::make_pair(c, 1));
+            }
+        }
+
+        return std::any_of(nums.cbegin(), nums.cend(), [](const auto &p) {return p.second == 2;});
+    }
 } // namespace
 
-bool password::isValid(const int pass)
+bool password::isValidSimple(const int pass)
 {
     if (pass > 999999 || pass < 111111) {
         return false;
@@ -44,3 +63,21 @@ bool password::isValid(const int pass)
     }
     return false;
 }
+
+bool password::isValidComplex(const int pass)
+{
+    if (pass > 999999 || pass < 111111) {
+        return false;
+    }
+
+    if (isValidSimple(pass)) {
+        const auto passStr = std::to_string(pass);
+        return adjacentEqualsAlwaysPairs(passStr);
+    }
+    return false;
+}
+
+//352
+//500 low
+//418755 ?
+//477999 high 

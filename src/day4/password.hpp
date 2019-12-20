@@ -1,5 +1,6 @@
 #pragma once
 namespace password
 {
-    bool isValid(const int pass);
+    bool isValidSimple(const int pass);
+    bool isValidComplex(const int pass);
 } // namespace password
