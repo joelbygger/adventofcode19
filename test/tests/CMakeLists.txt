@@ -32,3 +32,9 @@ new_cpp_executable(
         SOURCES day4.cpp
         LINK_PUBLIC test_base password_lib)
 catch_discover_tests(day4_test)
+
+new_cpp_executable(
+        NAME day5_test
+        SOURCES day5.cpp
+        LINK_PUBLIC test_base intcode_lib2)
+catch_discover_tests(day5_test)
