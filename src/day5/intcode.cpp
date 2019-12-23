@@ -88,18 +88,13 @@ namespace
         }
         return res;
     }
-} // namespace
 
-void Intcode::calculate(std::vector<int>& intcodePrgm)
-{
-    bool done = false;
-    size_t increment = 0;
-    for (size_t instrPtr = 0; instrPtr < intcodePrgm.size() && !done; instrPtr += increment) {
+    std::pair<struct modes, opcodes> getParams(const std::vector<int>& intcodePrgm, const size_t instrPtr) {
         const auto instruction = std::to_string(intcodePrgm.at(instrPtr));
         struct modes mode;
         uint opcodeTmp = 99;
-
         size_t pos = 0;
+
         switch (instruction.size()) {
         case 5: {
             uint tmp = chrToNum(instruction.data() + pos, instruction.data() + pos + 1);
@@ -133,7 +128,16 @@ void Intcode::calculate(std::vector<int>& intcodePrgm)
             break;
         }
 
-        const auto opcode = static_cast<opcodes>(opcodeTmp);
+        return std::make_pair(mode, static_cast<opcodes>(opcodeTmp));
+    }
+} // namespace
+
+void Intcode::calculate(std::vector<int>& intcodePrgm)
+{
+    bool done = false;
+    size_t increment = 0;
+    for (size_t instrPtr = 0; instrPtr < intcodePrgm.size() && !done; instrPtr += increment) {
+        const auto [mode, opcode] = getParams(intcodePrgm, instrPtr);
 
         switch (opcode) {
         case opcodes::add:

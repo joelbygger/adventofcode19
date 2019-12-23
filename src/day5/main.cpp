@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 
         if (!intcodePrgm.empty()) {
             std::vector<int> intcodePrgmTest = intcodePrgm;
-            std::cout << "Task 1 started, expect diagnostic code 9431221.\n";
+            std::cout << "Task 1 started, expect diagnostic code 9431221 if first input asked for is a 1.\n";
             Intcode::calculate(intcodePrgmTest);
         }
     }
