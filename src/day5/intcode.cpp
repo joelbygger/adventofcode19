@@ -1,7 +1,10 @@
 #include "intcode.hpp"
 #include <charconv>
+#include <cstdint>
 #include <functional>
 #include <iostream>
+#include <string>
+#include <utility>
 
 namespace
 {

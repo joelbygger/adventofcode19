@@ -1,8 +1,8 @@
 #include "password.hpp"
 #include <algorithm>
-#include <functional>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace
