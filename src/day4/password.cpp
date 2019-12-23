@@ -35,10 +35,10 @@ namespace
     bool adjacentEqualsAlwaysPairs(const std::string& passStr)
     {
         std::map<char, int> nums;
-        
-        for(const auto &c : passStr) {
-            
-            if(nums.find(c) != nums.end()) {
+
+        for (const auto& c : passStr) {
+
+            if (nums.find(c) != nums.end()) {
                 nums.at(c) += 1;
             }
             else {
@@ -46,7 +46,7 @@ namespace
             }
         }
 
-        return std::any_of(nums.cbegin(), nums.cend(), [](const auto &p) {return p.second == 2;});
+        return std::any_of(nums.cbegin(), nums.cend(), [](const auto& p) { return p.second == 2; });
     }
 } // namespace
 
@@ -76,8 +76,3 @@ bool password::isValidComplex(const int pass)
     }
     return false;
 }
-
-//352
-//500 low
-//418755 ?
-//477999 high 
