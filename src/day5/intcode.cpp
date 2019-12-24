@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <functional>
 #include <iostream>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -14,6 +15,10 @@ namespace
         mul = 2,
         input = 3,
         output = 4,
+        jumpIfTrue = 5,
+        jumpIfFalse = 6,
+        lessThan = 7,
+        equals = 8,
         end = 99
     };
 
@@ -77,6 +82,60 @@ namespace
         std::cout << "Output: " << intcodePrgm.at(static_cast<size_t>(out)) << "\n";
     }
 
+    std::pair<size_t, size_t> jumpIf(const std::vector<int>& intcodePrgm,
+                                     const size_t instrPtr,
+                                     const struct modes& mode,
+                                     const std::function<bool(int, int)>& op)
+    {
+        size_t retInstrPtr = instrPtr;
+        size_t retIncrement = 3;
+
+        auto cond = intcodePrgm.at(instrPtr + static_cast<size_t>(1));
+        if (mode.param1 == modeType::postion) {
+            cond = intcodePrgm.at(static_cast<size_t>(cond));
+        }
+
+        if (op(cond, 0)) {
+            auto addr = intcodePrgm.at(instrPtr + static_cast<size_t>(2));
+            if (mode.param2 == modeType::postion) {
+                addr = intcodePrgm.at(static_cast<size_t>(addr));
+            }
+
+            retInstrPtr = static_cast<size_t>(addr);
+            retIncrement = 0;
+        }
+
+        return std::make_pair(retInstrPtr, retIncrement);
+    }
+
+    void lessEqual(std::vector<int>& intcodePrgm,
+                   const size_t instrPtr,
+                   const struct modes& mode,
+                   const std::function<bool(int, int)>& op)
+    {
+        // First assume everything is immediate mode, it makes implementaiton easier.
+        auto noun = intcodePrgm.at(instrPtr + static_cast<size_t>(1));
+        auto verb = intcodePrgm.at(instrPtr + static_cast<size_t>(2));
+        auto resAddr = static_cast<int>(instrPtr + 3);
+
+        if (mode.param1 == modeType::postion) {
+            noun = intcodePrgm.at(static_cast<size_t>(noun));
+        }
+        if (mode.param2 == modeType::postion) {
+            verb = intcodePrgm.at(static_cast<size_t>(verb));
+        }
+        if (mode.param3 == modeType::postion) {
+            resAddr = intcodePrgm.at(static_cast<size_t>(resAddr));
+        }
+
+        if (op(noun, verb)) {
+            intcodePrgm.at(static_cast<size_t>(resAddr)) = 1;
+        }
+        else {
+            intcodePrgm.at(static_cast<size_t>(resAddr)) = 0;
+        }
+    }
+
     uint chrToNum(const char* start, const char* end)
     {
         uint tmp = 0;
@@ -92,10 +151,11 @@ namespace
         return res;
     }
 
-    std::pair<struct modes, opcodes> getParams(const std::vector<int>& intcodePrgm, const size_t instrPtr) {
+    std::pair<struct modes, opcodes> getParams(const std::vector<int>& intcodePrgm, const size_t instrPtr)
+    {
         const auto instruction = std::to_string(intcodePrgm.at(instrPtr));
         struct modes mode;
-        uint opcodeTmp = 99;
+        uint opcodeRaw = 99;
         size_t pos = 0;
 
         switch (instruction.size()) {
@@ -119,11 +179,11 @@ namespace
             [[fallthrough]];
 
         case 2:
-            opcodeTmp = chrToNum(instruction.data() + pos, instruction.data() + pos + 2);
+            opcodeRaw = chrToNum(instruction.data() + pos, instruction.data() + pos + 2);
             break;
 
         case 1:
-            opcodeTmp = chrToNum(instruction.data() + instruction.size() - 1, instruction.data() + instruction.size());
+            opcodeRaw = chrToNum(instruction.data() + instruction.size() - 1, instruction.data() + instruction.size());
             break;
 
         default:
@@ -131,7 +191,7 @@ namespace
             break;
         }
 
-        return std::make_pair(mode, static_cast<opcodes>(opcodeTmp));
+        return std::make_pair(mode, static_cast<opcodes>(opcodeRaw));
     }
 } // namespace
 
@@ -159,10 +219,31 @@ void Intcode::calculate(std::vector<int>& intcodePrgm)
             output(intcodePrgm, instrPtr, mode);
             increment = 2;
             break;
+        case opcodes::jumpIfTrue: {
+            const auto& [instrPtrTmp, incrementTmp] = jumpIf(intcodePrgm, instrPtr, mode, std::not_equal_to<>());
+            instrPtr = instrPtrTmp;
+            increment = incrementTmp;
+        } break;
+        case opcodes::jumpIfFalse: {
+            const auto& [instrPtrTmp, incrementTmp] = jumpIf(intcodePrgm, instrPtr, mode, std::equal_to<>());
+            instrPtr = instrPtrTmp;
+            increment = incrementTmp;
+        } break;
+        case opcodes::lessThan:
+            lessEqual(intcodePrgm, instrPtr, mode, std::less<>());
+            increment = 4;
+            break;
+        case opcodes::equals:
+            lessEqual(intcodePrgm, instrPtr, mode, std::equal_to<>());
+            increment = 4;
+            break;
         case opcodes::end:
             done = true;
             break;
             // No default here, we use enum class and will get warnings from "clang-diagnostic-switch" or "-Wswitch".
+        default:
+            std::cout << "Unknown opcode: " << static_cast<int>(opcode) << "\n";
+            break;
         }
     }
 }
