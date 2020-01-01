@@ -38,3 +38,9 @@ new_cpp_executable(
         SOURCES day5.cpp
         LINK_PUBLIC test_base intcode_lib2)
 catch_discover_tests(day5_test)
+
+new_cpp_executable(
+        NAME day6_test
+        SOURCES day6.cpp
+        LINK_PUBLIC test_base orbits_lib)
+catch_discover_tests(day6_test)
