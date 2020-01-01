@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 
         if (!orbits.empty()) {
             Orbits orbs(orbits);
-            int numOrbits = orbs.numOrbits();
+            int numOrbits = orbs.totOrbits();
             std::cout << "Tot number direct + indirect orbits: " << numOrbits << "\n";
         }
     }

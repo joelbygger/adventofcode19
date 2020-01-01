@@ -10,6 +10,6 @@ TEST_CASE("Orbits", "[woot]")
             = { { "COM", "B" }, { "B", "C" }, { "C", "D" }, { "D", "E" }, { "E", "F" }, { "B", "G" },
                 { "G", "H" },   { "D", "I" }, { "E", "J" }, { "J", "K" }, { "K", "L" } };
         Orbits orbits(input);
-        REQUIRE(orbits.numOrbits() == 42);
+        REQUIRE(orbits.totOrbits() == 42);
     }
 }

@@ -17,12 +17,12 @@ Orbits::Orbits(const rawStorage& inOrbits)
     }
 }
 
-int Orbits::numOrbits() const
+int Orbits::totOrbits() const
 {
     int sum = 0;
 
     for (const auto& [orbiter, center] : m_orbits) {
-        sum = numOrbits(orbiter, sum + 1);
+        sum = totOrbits(orbiter, sum + 1);
     }
 
     return sum;
@@ -33,11 +33,10 @@ int Orbits::numOrbits() const
  * Private functions
  *
  **********************************************************************************/
-int Orbits::numOrbits(const std::string& orbiter, const int sum) const
+int Orbits::totOrbits(const std::string& orbiter, const int sum) const
 {
     int totSum = sum;
 
-    //std::cout << "numOrbits priv: " << orbiter << "\n" << std::flush;
     // Sanity check.
     if (m_orbits.find(orbiter) == m_orbits.end()) {
         std::cout << "This orbiter does not exist in the list: \"" << orbiter
@@ -45,7 +44,7 @@ int Orbits::numOrbits(const std::string& orbiter, const int sum) const
     }
 
     if (m_orbits.at(orbiter) != m_centerPlanet) {
-        totSum = numOrbits(m_orbits.at(orbiter), sum + 1);
+        totSum = totOrbits(m_orbits.at(orbiter), sum + 1);
     }
 
     return totSum;
