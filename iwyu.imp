@@ -11,6 +11,7 @@
     { include: ["<memory>", public, "<catch2/catch.hpp>", public ] },
     { include: ["<system_error>", public, "<charconv>", public ] },
     { symbol: ["size_t", private, "<vector>", public ] },
+    { include: ["<iterator>", public, "<vector>", public ] },
     { include: ["<ext/alloc_traits.h>", private, "<vector>", public ] },
     { include: ["<memory>", public, "<vector>", public ] } # No frickin idea if this is correct, but header also includes memory...
 ]
