@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
+#include <utility>
 
 namespace
 {
@@ -54,7 +54,9 @@ int main(int argc, char** argv)
         if (!orbits.empty()) {
             Orbits orbs(orbits);
             int numOrbits = orbs.totOrbits();
+            int dist = orbs.minDist("YOU", "SAN");
             std::cout << "Tot number direct + indirect orbits: " << numOrbits << "\n";
+            std::cout << "Disance between the things: " << dist << "\n";
         }
     }
     return 0;

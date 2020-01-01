@@ -1,4 +1,5 @@
 #include "orbits.hpp"
+#include <algorithm>
 #include <iostream>
 
 Orbits::Orbits(const rawStorage& inOrbits)
@@ -28,11 +29,31 @@ int Orbits::totOrbits() const
     return sum;
 }
 
+int Orbits::minDist(const std::string& start, const std::string& dest) const
+{
+    std::vector<std::string> startToCom;
+    startToCom = createRouteToCenter(start, startToCom);
+
+    std::vector<std::string> destToCom;
+    destToCom = createRouteToCenter(dest, destToCom);
+
+    for(size_t i = 0; i < startToCom.size(); i++) {
+        auto it = std::find(destToCom.begin(), destToCom.end(), startToCom.at(i));
+        if(it != destToCom.end())
+        {
+            return static_cast<int>(i) + static_cast<int>(std::distance(destToCom.begin(), it));
+        }
+    }
+
+    return 0;
+}
+
 /***********************************************************************************
  *
  * Private functions
  *
  **********************************************************************************/
+
 int Orbits::totOrbits(const std::string& orbiter, const int sum) const
 {
     int totSum = sum;
@@ -48,4 +69,22 @@ int Orbits::totOrbits(const std::string& orbiter, const int sum) const
     }
 
     return totSum;
+}
+
+std::vector<std::string> Orbits::createRouteToCenter(const std::string& orbiter, std::vector<std::string>& route) const
+{
+    // Sanity check.
+    if (m_orbits.find(orbiter) == m_orbits.end()) {
+        std::cout << "This orbiter does not exist in the list: \"" << orbiter << "\"\n";
+        return route;
+    }
+
+    auto& center = m_orbits.at(orbiter);
+    route.emplace_back(center);
+
+    if (center != m_centerPlanet) {
+        route = createRouteToCenter(center, route);
+    }
+
+    return route;
 }
